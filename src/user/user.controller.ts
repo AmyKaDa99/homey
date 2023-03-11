@@ -11,6 +11,7 @@ import { UnitService } from 'src/unit/unit.service';
 import { IngredientService } from 'src/ingredient/ingredient.service';
 import { OrderStatusService } from 'src/order-status/order-status.service';
 import { LOGDto } from './dto/login.dto';
+import { MealService } from 'src/meal/meal.service';
 
 @ApiTags('User')
 @Controller('user')
@@ -53,17 +54,17 @@ export class UserController {
 @Controller('home')
 export class HomeController {
   constructor(
-    private readonly kitchenService: KitchenService,
+    private readonly mealsService: MealService,
     private readonly categoryService: CategoryService,
     private readonly discountService: DiscountService
   ) { }
 
   @Get()
   async findAll() {
-    const [kitchens, categories, discounts] = await Promise.all([
-      this.kitchenService.findAll(), this.categoryService.findAll(), this.discountService.findAll()
+    const [meals, categories, discounts] = await Promise.all([
+      this.mealsService.findByDate(), this.categoryService.findAll(), this.discountService.findAll()
     ])
-    return { discounts, categories, kitchens }
+    return { discounts, categories, meals }
   }
 
 }

@@ -10,6 +10,7 @@ import { RegionModule } from 'src/region/region.module';
 import { IngredientModule } from 'src/ingredient/ingredient.module';
 import { UnitModule } from 'src/unit/unit.module';
 import { OrderStatusModule } from 'src/order-status/order-status.module';
+import { MealModule } from 'src/meal/meal.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { OrderStatusModule } from 'src/order-status/order-status.module';
     RegionModule,
     IngredientModule,
     UnitModule,
+    MealModule,
     forwardRef(() => KitchenModule),
     DiscountModule,
     MongooseModule.forFeatureAsync([{

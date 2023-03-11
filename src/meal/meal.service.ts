@@ -387,4 +387,42 @@ export class MealService {
     return await this.MealModel.findOne({ _id }, { price: 1, _id: 0 })
   }
 
+  async findByDate(){
+    const populateQuery = [{ path: 'kitchenId', select: ['name', 'logo'], populate: [{ path: 'regionId', select: 'name' }] }, { path: 'unitId', select: 'name' }, { path: 'ingredients', select: 'name' }]
+    const meals = await this.MealModel.find({ isAvailable: true }).populate(populateQuery).sort({createdAt: -1}) as any;
+
+    const results = meals.map(element => {
+      const meal: IMeal = {} as IMeal;
+      meal.kitchenId = element.kitchenId._id;
+      meal.kitchenName = element.kitchenId.name;
+      meal.kitchenLogo = element.kitchenId.logo;
+      meal.kitchenRegion = element.kitchenId.regionId.name;
+      meal._id = element._id;
+      meal.name = element.name;
+      meal.url = element.url;
+      meal.details = element.details;
+      meal.priceDetails = element.priceDetails;
+      if (element.discount) {
+        meal.discount = true;
+        meal.percent = element.percent;
+        meal.oldPrice = element.price;
+        meal.newPrice = (+element.price - ((+element.price * +element.percent) / 100)).toString()
+      } else {
+        meal.discount = false;
+        meal.price = element.price;
+      }
+      meal.amount = element.amount;
+      meal.unit = element.unitId.name;
+      let ingredients: string[] = [];
+      for (let i = 0; i < element.ingredients.length; i++) {
+        ingredients.push(element.ingredients[i].name)
+      }
+      meal.ingredients = ingredients;
+      meal.cookTime = element.cookTime;
+      return meal
+    })
+
+    return results; 
+  }
+
 }
