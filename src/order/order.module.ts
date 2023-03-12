@@ -6,11 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { OrderStatusModule } from 'src/order-status/order-status.module';
 import { MealModule } from 'src/meal/meal.module';
 import { ReviewModule } from 'src/review/review.module';
+import { TelegramBotModule } from 'src/telegram-bot/telegram-bot.module';
 
 @Module({
   imports: [
     ReviewModule,
     MealModule,
+    TelegramBotModule,
     OrderStatusModule,
     MongooseModule.forFeatureAsync([{
       name: Order.name,

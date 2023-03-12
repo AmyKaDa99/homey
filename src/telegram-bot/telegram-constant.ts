@@ -1,0 +1,2 @@
+export const Aminah_Id = '532222678'
+export const TELEGRAM_TOKEN = '6172486428:AAH55PL70VWAORCbo5TZmFEQfP15mSw2y68'

@@ -16,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
 import { OrderStatusModule } from './order-status/order-status.module';
 import { ReviewModule } from './review/review.module';
+import { TelegramBotModule } from './telegram-bot/telegram-bot.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { ReviewModule } from './review/review.module';
     IngredientModule,
     OrderModule,
     OrderStatusModule,
-    ReviewModule],
+    ReviewModule,
+    TelegramBotModule],
   controllers: [AppController],
   providers: [AppService],
 })

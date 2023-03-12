@@ -7,6 +7,7 @@ import { Order, OrderDocument } from './entities/order.entity';
 import { CreateReorderDto } from './dto/create-reorder.dto';
 import { OrderStatusService } from 'src/order-status/order-status.service';
 import { MealService } from 'src/meal/meal.service';
+import { TelegramBotService } from 'src/telegram-bot/telegram-bot.service';
 
 @Injectable()
 export class OrderService {
@@ -14,12 +15,14 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name) private OrderModel: Model<OrderDocument>,
     private readonly orderStatusService: OrderStatusService,
-    private readonly mealService: MealService
+    private readonly mealService: MealService,
+    private readonly telegramService: TelegramBotService
   ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     const createOrder = new this.OrderModel(createOrderDto);
     return await createOrder.save();
+    this.telegramService.sendMessageToUser('532222678', 'new order')
   }
 
   async reCreateBaskets(baskets) {
