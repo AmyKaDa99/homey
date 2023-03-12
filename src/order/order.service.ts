@@ -15,15 +15,13 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name) private OrderModel: Model<OrderDocument>,
     private readonly orderStatusService: OrderStatusService,
-    private readonly mealService: MealService,
-    private readonly telegramService: TelegramBotService
+    private readonly mealService: MealService
   ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     const createOrder = new this.OrderModel(createOrderDto);
     return await createOrder.save();
-    this.telegramService.sendMessageToUser('532222678', 'new order')
-  }
+ }
 
   async reCreateBaskets(baskets) {
     let results: any[] = []

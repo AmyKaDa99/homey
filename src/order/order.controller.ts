@@ -8,13 +8,17 @@ import { OrderStatusService } from 'src/order-status/order-status.service';
 import { ReviewService } from 'src/review/review.service';
 import { CreateReviewDto } from 'src/review/dto/create-review.dto';
 import { UpdateReviewDto } from 'src/review/dto/update-review.dto';
+import { TelegramBotService } from 'src/telegram-bot/telegram-bot.service';
+import { AMINAH_ID, SANA_ID, SHAHED_ID } from 'src/telegram-bot/telegram-constant';
 
 @Controller('order')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
     private readonly orderStatusService: OrderStatusService,
-    private readonly reviewService: ReviewService) { }
+    private readonly reviewService: ReviewService,
+    private readonly telegramService: TelegramBotService
+  ) { }
 
   @Post()
   async create(@Body() createUserOrderDto: CreateUserOrderDto) {
@@ -47,13 +51,23 @@ export class OrderController {
       await this.orderService.create(createOrder)
 
     }
+    this.telegramService.sendMessageToUser(AMINAH_ID,
+       `Received a new order from ${createUserOrderDto.locationDetails}, please leave facebook and go to work! 🥪`)
+    this.telegramService.sendMessageToUser(SANA_ID,`Received a new order from ${createUserOrderDto.locationDetails}, please check the dashboard! 🥪`)
+    this.telegramService.sendMessageToUser(SHAHED_ID, `Received a new order from ${createUserOrderDto.locationDetails}, please check the dashboard! 🥪`)
+
     return 'done'
   }
 
   @Patch('cancel/:id')
   async cancel(@Param('id') id: string) {
     const result = await this.orderService.cancel(id)
-    if (result) return 'done'
+    if (result){
+      this.telegramService.sendMessageToUser(AMINAH_ID, `an order is canceled`)
+     this.telegramService.sendMessageToUser(SANA_ID,`an order is canceled`)
+     this.telegramService.sendMessageToUser(SHAHED_ID, `an order is canceled`)
+ 
+      return 'done'}
     throw new HttpException(
       {
         message: "call customer service please"
@@ -80,6 +94,11 @@ export class OrderController {
       reviewId: reviewDocs._id
     }
     await this.orderService.updateOrderReviewId(id, updateOrder)
+    
+  this.telegramService.sendMessageToUser(AMINAH_ID, 'An order is delivered')
+  this.telegramService.sendMessageToUser(SANA_ID, 'An order is delivered')
+  this.telegramService.sendMessageToUser(SHAHED_ID,  'An order is delivered')
+
     return 'done'
   }
 

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Aminah_Id, TELEGRAM_TOKEN } from './telegram-constant';
+import { AMINAH_ID, SANA_ID, SHAHED_ID, TELEGRAM_TOKEN } from './telegram-constant';
 const TelegramBot = require('node-telegram-bot-api');
 
 
@@ -10,15 +10,20 @@ export class TelegramBotService {
 
     constructor(){
         this.bot = new TelegramBot(TELEGRAM_TOKEN, {polling: true});
-        this.bot.on('message', this.onRecieveMessage)
-  }
+        this.bot.on('message', this.onRecieveMessage);
+         this.sendMessageToUser(SANA_ID, 'hi Snsn 💕')    
+   
+       }
 
     onRecieveMessage = (msg: any)=>{
         this.logger.debug(msg)
-        this.sendMessageToUser(Aminah_Id, 'homey is coming! 💕')    
+        this.sendMessageToUser(AMINAH_ID, 'homey is coming! 💕')       
     }
 
     sendMessageToUser = (userId:string, message:string)=>{
         this.bot.sendMessage(userId, message )
     }
+
+
+
 }
