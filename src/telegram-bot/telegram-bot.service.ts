@@ -11,8 +11,6 @@ export class TelegramBotService {
     constructor(){
         this.bot = new TelegramBot(TELEGRAM_TOKEN, {polling: true});
         this.bot.on('message', this.onRecieveMessage);
-         this.sendMessageToUser(SANA_ID, 'hi Snsn 💕')    
-   
        }
 
     onRecieveMessage = (msg: any)=>{
