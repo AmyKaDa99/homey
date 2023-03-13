@@ -21,6 +21,13 @@ export class UserService {
     return this.UserModel.findOne({ phone: createUser.phone }).populate(populateQuery)
   }
 
+  async update(id: string, updateUser: UpdateUserDto){
+    await this.UserModel.updateOne({_id: id}, {updateUser})
+    const populateQuery = [{ path: 'region' }]
+    return this.UserModel.findOne({ _id: id }).populate(populateQuery)
+ 
+  }
+
   async findAll() {
     return await this.UserModel.find();
   }
@@ -39,11 +46,7 @@ export class UserService {
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
+  
   remove(id: number) {
     return `This action removes a #${id} user`;
   }

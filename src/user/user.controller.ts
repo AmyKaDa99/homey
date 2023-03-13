@@ -23,6 +23,11 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
+  }
+
   @Post('login')
   async login(@Body() login: LOGDto) {
     const bool = await this.userService.logIn(login.phone, login.password)
@@ -38,11 +43,6 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
